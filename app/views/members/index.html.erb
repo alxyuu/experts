@@ -19,7 +19,7 @@
   <% @members.each do |member| %>
     <tr>
       <td><%= member.name %></td>
-      <td></td>
+      <td><%= link_to member.short_url, member.short_url if member.short_url? %></td>
       <td><%= member.friends_count %></td>
       <td><%= link_to 'View Profile', member %></td>
     </tr>
