@@ -1,0 +1,28 @@
+<h1>Add a new expert</h1>
+<%= form_with(url: '/members', method: 'post') do |form| %>
+  <%= form.label :name, 'Name:' %>
+  <%= form.text_field :name, required: true %>
+  <%= form.label :website_url, 'Website:' %>
+  <%= form.text_field :website_url, required: true %>
+  <%= form.submit 'Create' %>
+  <p id="errors"></p>
+<% end %>
+<h1>Experts</h1>
+<table style="min-width: 600px">
+  <thead>
+    <th>Name</th>
+    <th>Short URL</th>
+    <th>Friends</th>
+    <th></th>
+  </thead>
+  <tbody>
+  <% @members.each do |member| %>
+    <tr>
+      <td><%= member.name %></td>
+      <td></td>
+      <td><%= member.friends_count %></td>
+      <td><%= link_to 'View Profile', member %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

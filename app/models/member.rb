@@ -5,6 +5,9 @@ class Member < ApplicationRecord
                                     foreign_key: :from_id,
                                     after_add: :ensure_bidirectional_relationship
 
+  validates :short_url, format: URI::regexp(%w[http https]), if: :short_url?
+  validates :website_url, format: URI::regexp(%w[http https])
+
   private
 
   def ensure_bidirectional_relationship(member)

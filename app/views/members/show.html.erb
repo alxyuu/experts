@@ -1,0 +1,12 @@
+<a href="/">Back to index</a>
+<h1><%= @member.name %></h1>
+<p>
+  Website: <a href="<%= @member.website_url %>" target="_blank"><%= @member.website_url %></a>
+</p>
+
+<h2>Topics</h2>
+<ul>
+<% @member.topics.each do |topic| %>
+  <li><%= topic %></li>
+<% end %>
+</ul>
