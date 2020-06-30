@@ -1,4 +1,4 @@
-<a href="/">Back to index</a>
+<%= link_to 'Back to index', :root %>
 <h1><%= @member.name %></h1>
 <p>
   Website: <%= link_to @member.website_url, @member.website_url %>
@@ -8,11 +8,14 @@
   Short URL: <%= link_to @member.short_url, @member.short_url %>
 </p>
 <% end %>
+<p>
+  <%= link_to 'Discover Experts', discover_member_url(@member) %>
+</p>
 
 <h2>Topics</h2>
 <ul>
 <% @member.topics.each do |topic| %>
-  <li><%= topic %></li>
+  <li><%= topic.name %></li>
 <% end %>
 </ul>
 

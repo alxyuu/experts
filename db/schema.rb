@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_091110) do
+ActiveRecord::Schema.define(version: 2020_06_30_005030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,22 @@ ActiveRecord::Schema.define(version: 2020_06_29_091110) do
     t.string "name", null: false
     t.string "website_url", null: false
     t.string "short_url"
-    t.jsonb "topics", default: [], null: false
-    t.index ["topics"], name: "index_members_on_topics", using: :gin
   end
 
-  create_table "relationships", force: :cascade do |t|
+  create_table "relationships", id: false, force: :cascade do |t|
     t.bigint "from_id"
     t.bigint "to_id"
     t.index ["from_id", "to_id"], name: "index_relationships_on_from_id_and_to_id", unique: true
     t.index ["from_id"], name: "index_relationships_on_from_id"
     t.index ["to_id"], name: "index_relationships_on_to_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.string "name", null: false
+    t.tsvector "name_vector", default: -> { "to_tsvector('english'::regconfig, (name)::text)" }
+    t.index ["member_id"], name: "index_topics_on_member_id"
+    t.index ["name_vector"], name: "index_topics_on_name_vector", using: :gin
   end
 
   add_foreign_key "relationships", "members", column: "from_id"

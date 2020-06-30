@@ -1,0 +1,19 @@
+<% unless @results.nil? %>
+  <h2>Results</h2>
+
+  <% if @results.empty? %>
+    <em>No results found</em>
+  <% else %>
+    <% @results.each do |result| %>
+    <li>
+      <% result[:members].each_with_index do |member, index| %>
+        <%= link_to member.name, member %>
+        <% if index == result[:members].length - 1 %>
+          (<%= result[:topics].map { |topic| "\"#{topic}\"" }.join(', ') %>)
+        <% else %>
+          -&gt;
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

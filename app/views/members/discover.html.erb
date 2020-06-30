@@ -1,0 +1,14 @@
+
+<%= link_to 'Back to profile', @member %>
+<h1>Expert Discovery</h1>
+<p>Searching as <%= @member.name %></p>
+
+<%= form_with(url: discover_member_url(@member), method: 'get') do |form| %>
+  <%= form.label :topic, 'Topic:' %>
+  <%= form.text_field :topic, required: true %>
+  <%= form.submit 'Search' %>
+<% end %>
+
+<div id="discover-results">
+  <%= render 'discover_results' %>
+</div>
