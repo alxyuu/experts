@@ -1,4 +1,11 @@
 class MembersController < ApplicationController
+  def add_friend
+    member = Member.find(params[:id])
+    member.friends << Member.find(params[:friend_id]) unless member.friends.where(id: params[:friend_id]).exists?
+
+    redirect_to member
+  end
+
   def create
     @member = Member.new(params.permit(:name, :website_url))
 
@@ -13,6 +20,14 @@ class MembersController < ApplicationController
 
   def index
     @members = Member.left_outer_joins(:friends).select('members.*, count(relationships.*) as friends_count').group(:id)
+  end
+
+  def search_new_friends
+    members = Member.where('members.name ilike ?', "%#{params[:search_terms]}%")
+      .where.not(id: params[:id])
+      .where.not(id: Relationship.where(from_id: params[:id]).select(:to_id))
+
+    render json: members.to_json(only: [:id, :name])
   end
 
   def show
@@ -37,8 +52,6 @@ class MembersController < ApplicationController
       req.headers['Content-Type'] = 'application/json'
       req.body = { long_url: @member.website_url }.to_json
     end
-
-    puts response.body
 
     @member.update!(short_url: response.body['link']) if response.success?
   end

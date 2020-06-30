@@ -15,3 +15,21 @@
   <li><%= topic %></li>
 <% end %>
 </ul>
+
+<h2>Add Friend</h2>
+<%= form_with(url: add_friend_member_url(@member), method: 'post') do |form| %>
+  <div id="member-data" data-member-id="<%= @member.id %>">
+    <%= form.text_field :friend_name, required: true %>
+    <%= form.hidden_field :friend_id, required: true %>
+    <%= form.submit 'Add Friend' %>
+  </div>
+<% end %>
+
+<h2>Friends</h2>
+<ul>
+<% @member.friends.each do |friend| %>
+  <li><%= link_to friend.name, friend %></li>
+<% end %>
+</ul>
+
+<%= javascript_pack_tag 'friends_search' %>
